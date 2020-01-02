@@ -4,7 +4,7 @@
 
 ## Nginx
 
-* [nginx\_level\_1](nginx/untitled.md)
+* [nginx\_level\_1](nginx/slus_ng_1.md)
 * [test](nginx/test/README.md)
   * [t2](nginx/test/t2.md)
 
