@@ -4,18 +4,18 @@
 
 ## Nginx
 
-* [Nginx configuration](nginx-configuration/README.md)
-  * [nginx is Web server](nginx-configuration/nginx-is-web-server/README.md)
-    * [php 优化](nginx-configuration/nginx-is-web-server/performance-tuning-for-php.md)
-    * [Nginx + PHP](nginx-configuration/nginx-is-web-server/nginx+php.md)
-    * [t](nginx-configuration/nginx-is-web-server/t.md)
-  * [nginx location](nginx-configuration/location.md)
-  * [Nginx Module](nginx-configuration/nginx-module.md)
-  * [Nginx is proxy server](nginx-configuration/nginx-is-proxy-server/README.md)
-    * [keepalive](nginx-configuration/nginx-is-proxy-server/keepalive.md)
-    * [upstream](nginx-configuration/nginx-is-proxy-server/upstream.md)
-  * [ssl](nginx-configuration/ssl.md)
-  * [Nginx 虚拟主机](nginx-configuration/server-blocks-or-virtual-hosts.md)
+* [Nginx is proxy server](nginx/nginx-is-proxy-server/README.md)
+  * [keepalive](nginx/nginx-is-proxy-server/keepalive.md)
+  * [upstream](nginx/nginx-is-proxy-server/upstream.md)
+* [Nginx configuration](nginx/nginx-configuration/README.md)
+  * [nginx location](nginx/nginx-configuration/location.md)
+  * [Nginx Module](nginx/nginx-configuration/nginx-module.md)
+  * [ssl](nginx/nginx-configuration/ssl.md)
+  * [Nginx 虚拟主机](nginx/nginx-configuration/server-blocks-or-virtual-hosts.md)
+* [nginx is Web server](nginx/nginx-is-web-server/README.md)
+  * [php 优化](nginx/nginx-is-web-server/performance-tuning-for-php.md)
+  * [Nginx + PHP](nginx/nginx-is-web-server/nginx+php.md)
+  * [t](nginx/nginx-is-web-server/t.md)
 
 ## tomcat
 
