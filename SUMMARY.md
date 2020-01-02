@@ -8,9 +8,9 @@
 * [Nginx is proxy server](nginx-is-proxy-server.md)
 * [Nginx Module](nginx-module.md)
 * [N](n.md)
-* [nginx is Web server](untitled/README.md)
-  * [Nginx + PHP](untitled/nginx+php.md)
-  * [t](untitled/t.md)
+* [nginx is Web server](nginx-is-web-server/README.md)
+  * [Nginx + PHP](nginx-is-web-server/nginx+php.md)
+  * [t](nginx-is-web-server/t.md)
 
 ## test\_group\_2
 
