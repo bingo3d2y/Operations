@@ -4,11 +4,16 @@
 
 ## Nginx
 
-* [Nginx configuration](nginx-configuration.md)
-* [Nginx is proxy server](nginx-is-proxy-server.md)
+* [Nginx configuration](nginx-configuration/README.md)
+  * [ssl](nginx-configuration/ssl.md)
+  * [nginx location](nginx-configuration/location.md)
+  * [Nginx 虚拟主机](nginx-configuration/server-blocks-or-virtual-hosts.md)
+* [Nginx is proxy server](nginx-is-proxy-server/README.md)
+  * [keepalive](nginx-is-proxy-server/keepalive.md)
+  * [upstream](nginx-is-proxy-server/upstream.md)
 * [Nginx Module](nginx-module.md)
-* [N](n.md)
 * [nginx is Web server](nginx-is-web-server/README.md)
+  * [php 优化](nginx-is-web-server/performance-tuning-for-php.md)
   * [Nginx + PHP](nginx-is-web-server/nginx+php.md)
   * [t](nginx-is-web-server/t.md)
 
