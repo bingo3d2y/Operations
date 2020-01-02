@@ -6,3 +6,9 @@ Slug 是一个新闻术语（通常叫做短标题）。一个slug只能包含�
 
 ## gitbook slug 即 在github中的filename
 
+## 同名目录的 gitbook上的Parent Page即gitbook的directory，而且Parent page 的内容会自动变成github上的 README.md
+
+### ps: 我在github上创建目录，则这个目录不会同步到gitbook上---emm 可能是github到gitbook 没做类型的转换所以同步不了。
+
+
+### 0.0 我还不清楚gitbook的group的作用
