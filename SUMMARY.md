@@ -4,5 +4,5 @@
 
 ## Nginx
 
-* [test](test.md)
+* [test](nginx/test.md)
 
