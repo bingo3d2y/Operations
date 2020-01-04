@@ -4,7 +4,7 @@
 
 ## Nginx
 
-* [Nginx Reverse Proxy](nginx/nginx-is-proxy-server/README.md)
+* [Nginx Reverse Proxy](nginx/nginx-reverse-proxy/README.md)
   * [Web Socket](nginx/nginx-reverse-proxy/web-socket.md)
   * [keepalive](nginx/nginx-is-proxy-server/keepalive.md)
   * [upstream](nginx/nginx-is-proxy-server/upstream.md)

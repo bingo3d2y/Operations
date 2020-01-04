@@ -176,6 +176,7 @@ rewrite ^/app\.php/?(.*)$  /$1 permanent;
 
 location / {
     index app.php;
+    ## pathinfo模式，肯定没有$uri这个文件 
     try_files $uri @rewriteapp;
 }
 
