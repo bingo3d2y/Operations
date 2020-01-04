@@ -2,9 +2,17 @@
 
 Operations
 
+运维界的搬运工，笔记整合者，某的感情的运维机器。
+
+0.0 千丝万缕切不断，每一部分只是截取。
+
 Slug 是一个新闻术语（通常叫做短标题）。一个slug只能包含字母、数字、下划线或者是连字符，通常用来作为短标签。通常它们是用来放在URL里的。
 
 ## gitbook slug 即 在github中的filename
+
+gitbook 在bulleted list 后面按shift + Enter可以在list下放再操作
+
+
 
 ## 同名目录的 gitbook上的Parent Page即gitbook的directory，而且Parent page 的内容会自动变成github上的 README.md
 
