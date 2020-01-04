@@ -170,6 +170,7 @@ server_name  xxx;
 
 # 这个还需要嘛？？没有这个REWRITE不是直接去
 # location ~ ^/(app|app_dev|test)\.php(/|$) 了？？
+# 因为它的优先级高
 rewrite ^/app\.php/?(.*)$  /$1 permanent;
 
 
