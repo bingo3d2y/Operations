@@ -13,9 +13,9 @@
   * [Nginx Module](nginx/nginx-configuration/nginx-module.md)
   * [ssl](nginx/nginx-configuration/ssl.md)
   * [Nginx Virtual Servers](nginx/nginx-configuration/server-blocks-or-virtual-hosts.md)
-* [Nginx as a Web server](nginx/nginx-is-web-server/README.md)
+* [Nginx as a Web server](nginx/nginx-as-a-web-server/README.md)
   * [php 优化](nginx/nginx-is-web-server/performance-tuning-for-php.md)
-  * [Nginx + PHP](nginx/nginx-as-a-web-server/nginx+php.md)
+  * [Nginx + PHP](nginx/nginx-is-web-server/nginx+php.md)
   * [Nginx + Python](nginx/nginx-is-web-server/t.md)
 
 ## tomcat

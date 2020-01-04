@@ -10,7 +10,9 @@ A web server communicates with a client using the Hypertext Transfer Protocol \(
 >
 > The content can be static or dynamic. 为了支持获取dynamic data，web server 需要支持一些脚本语言。
 >
-> Eg: PHP, Python, Javascript
+> Eg: PHP, Python, Javascript 
+>
+> 注意，这里没有JAVA吼，我认为，java web app需要专门的servelet来运行，所以Nginx+tomcat时，Nginx做的是代理服务，而不是web server
 
 A web server might also cache content to speed delivery of commonly requested content. This process is also known as _web acceleration_.
 
