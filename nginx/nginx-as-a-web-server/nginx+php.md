@@ -36,6 +36,8 @@ In a web browser, the **address bar** \(also **location bar** or **URL bar**\) i
 
   兼容模式配合Web服务器重写规则的定义，可以达到和REWRITE模式一样的URL效果。
 
+### Nginx配置
+
 总结PHP常用框架的URL模式，与它对应的Nginx配置其实就三种：
 
 * 简单模式
@@ -155,7 +157,44 @@ U 非贪婪匹配，有些坑。eg：请求的url是test.17win.com/a/b/c/d/test.
 
 由于采用非贪婪匹配会导致，fastcgi\_script\_name变成/d/test.php ~~
 
+#### REWRITE模式
 
+即利用nginx的`try_files`指令屏蔽掉入口php文件。
+
+```text
+server {
+listen       80;
+server_name  xxx;
+
+
+rewrite ^/app\.php/?(.*)$  /$1 permanent;
+
+
+location / {
+    index app.php;
+    try_files $uri @rewriteapp;
+}
+location @rewriteapp {
+    rewrite ^(.*)$ /app.php/$1 last;
+}
+
+location ~ ^/(app|app_dev|test)\.php(/|$) {
+    fastcgi_split_path_info  ^(.+\.php)(/.*)$;
+    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include  fastcgi_params;
+    fastcgi_pass  unix:/run/php-cgi.sock;
+}
+
+ 
+    
+}    
+```
+
+
+
+### 总结
+
+在实现PATHINFO时，要注意根据实际业务需求，写出正确的正则表达式。
 
 
 
