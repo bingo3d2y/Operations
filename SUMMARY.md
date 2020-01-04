@@ -7,7 +7,7 @@
 * [Nginx Reverse Proxy](nginx/nginx-is-proxy-server/README.md)
   * [Web Socket](nginx/nginx-reverse-proxy/web-socket.md)
   * [keepalive](nginx/nginx-is-proxy-server/keepalive.md)
-  * [upstream](nginx/nginx-reverse-proxy/upstream.md)
+  * [upstream](nginx/nginx-is-proxy-server/upstream.md)
 * [Nginx configuration](nginx/nginx-configuration/README.md)
   * [nginx location](nginx/nginx-configuration/location.md)
   * [Nginx Module](nginx/nginx-configuration/nginx-module.md)

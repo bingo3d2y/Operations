@@ -161,12 +161,15 @@ U 非贪婪匹配，有些坑。eg：请求的url是test.17win.com/a/b/c/d/test.
 
 即利用nginx的`try_files`指令屏蔽掉入口php文件。
 
+try\_files指令和Named location详见Nginx Location部分。
+
 ```text
 server {
 listen       80;
 server_name  xxx;
 
-
+# 这个还需要嘛？？没有这个REWRITE不是直接去
+# location ~ ^/(app|app_dev|test)\.php(/|$) 了？？
 rewrite ^/app\.php/?(.*)$  /$1 permanent;
 
 
@@ -174,6 +177,7 @@ location / {
     index app.php;
     try_files $uri @rewriteapp;
 }
+
 location @rewriteapp {
     rewrite ^(.*)$ /app.php/$1 last;
 }
@@ -184,8 +188,6 @@ location ~ ^/(app|app_dev|test)\.php(/|$) {
     include  fastcgi_params;
     fastcgi_pass  unix:/run/php-cgi.sock;
 }
-
- 
     
 }    
 ```
