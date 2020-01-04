@@ -90,6 +90,8 @@ Nginx要做两件事情：
    > **fastcgi\_param指令产生的key-value键值对最后都（未确认，暂时这么理解吧~）转换成了超全局数组变量`$_SERVER`的键值对**。
    >
    > PS:`$_SERVER[]`取的环境变量是常用的CGI环境变量
+   >
+   > PS：框架内部有函数可以取到经nginx转换后的uri，llicat说框架其实底层也是用的$\_SERVER\[request\_uri\].
 
 Nginx基于ngx\_http\_fastcgi\_module的本质和配置实现
 
