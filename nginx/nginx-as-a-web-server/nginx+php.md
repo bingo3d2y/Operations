@@ -4,10 +4,6 @@
 
 Nginx 利用 PHP 为client 提供动态数据。
 
-In a web browser, the **address bar** \(also **location bar** or **URL bar**\) is a GUI widget that shows the current URL.
-
- A URL is one type of _**U**niform **R**esource **I**dentifier \(**URI**\)_;
-
 ### PHP 框架常用的URL 模式
 
 #### CI框架
