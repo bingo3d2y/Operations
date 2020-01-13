@@ -9,6 +9,7 @@
   * [keepalive](nginx/nginx-is-proxy-server/keepalive.md)
   * [upstream](nginx/nginx-is-proxy-server/upstream.md)
 * [Nginx configuration](nginx/nginx-configuration/README.md)
+  * [backlog](nginx/nginx-configuration/backlog.md)
   * [nginx location](nginx/nginx-configuration/location.md)
   * [Nginx Module](nginx/nginx-configuration/nginx-module.md)
   * [ssl](nginx/nginx-configuration/ssl.md)
