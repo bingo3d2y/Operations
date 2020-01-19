@@ -5,6 +5,7 @@
 ## Nginx
 
 * [Nginx Reverse Proxy](nginx/nginx-is-proxy-server/README.md)
+  * [Nginx HTTP Status Code](nginx/nginx-reverse-proxy/nginx-http-status-code.md)
   * [Let nginx start if upstream host is unavailable or down](nginx/nginx-reverse-proxy/let-nginx-start-if-upstream-host-is-unavailable-or-down.md)
   * [Web Socket](nginx/nginx-reverse-proxy/web-socket.md)
   * [keepalive](nginx/nginx-is-proxy-server/keepalive.md)
