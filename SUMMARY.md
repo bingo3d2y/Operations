@@ -37,7 +37,8 @@
 
 ## Kubernetes
 
-* [apiserver](kubernetes/apiserver.md)
+* [k8s平台搭建](kubernetes/k8s-ping-tai-da-jian.md)
+* [calico部署和基本概念](kubernetes/apiserver.md)
 
 ## kubeadm
 
