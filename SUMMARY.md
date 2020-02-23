@@ -38,45 +38,40 @@
 
 ## Docker
 
-* [Network](docker/network.md)
-* [Storage Driver](docker/storage-driver.md)
-* [Cgroup](docker/cgroup.md)
-* [Namespace](docker/namespace.md)
 * [Image](docker/image/README.md)
+  * [核心概念](docker/image/he-xin-gai-nian.md)
   * [Dockerfile](docker/image/t1.md)
+* [Network（未整理）](docker/network.md)
+* [Storage Driver（未整理）](docker/storage-driver.md)
+* [Cgroup（未整理）](docker/cgroup.md)
+* [Namespace（未整理）](docker/namespace.md)
 
 ## Kubernetes
 
 * [基础组件](kubernetes/ji-chu-zu-jian/README.md)
   * [k8s平台搭建（仅上传了第一阶段）](kubernetes/ji-chu-zu-jian/k8s-ping-tai-da-jian.md)
   * [k8s集群参数优化](kubernetes/ji-chu-zu-jian/k8s-ji-qun-can-shu-you-hua.md)
-* [监控](kubernetes/jian-kong.md)
 * [Network](kubernetes/network/README.md)
   * [calico部署和基本概念](kubernetes/network/apiserver.md)
 * [容器应用](kubernetes/rong-qi-ying-yong/README.md)
   * [高并发容器应用优化](kubernetes/rong-qi-ying-yong/gao-bing-fa-rong-qi-ying-yong-you-hua.md)
-
-## kubeadm
-
-* [test](kubeadm/test.md)
+* [监控（未整理）](kubernetes/jian-kong.md)
 
 ## HTTP
 
 * [基础](http/ji-chu.md)
-* [RESTFUL](http/restful.md)
 
 ## Shell
 
 * [Script](shell/script/README.md)
   * [Shell Script](shell/script/shell-script.md)
 
-## Python
-
-* [基础](python/untitled.md)
-* [Flask](python/flask.md)
-
 ## TCP/IP
 
 * [IP](tcp-ip/ip.md)
 * [TCP](tcp-ip/tcp.md)
+
+## Python
+
+* [待整理](python/dai-zheng-li.md)
 
