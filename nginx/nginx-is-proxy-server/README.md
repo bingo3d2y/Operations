@@ -1,2 +1,0 @@
-# Nginx is proxy server
-

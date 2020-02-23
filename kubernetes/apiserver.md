@@ -168,6 +168,8 @@ For a larger deployment you can [disable the full node-to-node mesh](https://doc
 
 **Note**: For a simple deployment, all the route reflector nodes should have the same cluster ID.
 
+![](../.gitbook/assets/calico-rr.jpg)
+
 ![calico-rr](file://D:/data_files/MarkDown/Images/calico-rr.jpg?lastModify=1582436898)
 
 Calico方案只是把"hostnetwork"（这个是加引号的hostnetwork）方案配置自动化了。由于还是通过物理设备进行虚拟设备的管理和通信，所以整个网络依然受物理设备的限制影响；另外因为项目及设备数量的增加，内网IP也面临耗尽问题。
