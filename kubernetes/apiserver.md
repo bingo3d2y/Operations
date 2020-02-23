@@ -170,13 +170,11 @@ For a larger deployment you can [disable the full node-to-node mesh](https://doc
 
 ![](../.gitbook/assets/calico-rr.jpg)
 
-![calico-rr](file://D:/data_files/MarkDown/Images/calico-rr.jpg?lastModify=1582436898)
-
 Calico方案只是把"hostnetwork"（这个是加引号的hostnetwork）方案配置自动化了。由于还是通过物理设备进行虚拟设备的管理和通信，所以整个网络依然受物理设备的限制影响；另外因为项目及设备数量的增加，内网IP也面临耗尽问题。
 
 > Host Network”将游戏服务器的虚拟IP也配置成实体IP，并注入到主路由中。但这使得主路由的设备条目数比设计容量多了三倍。
 >
-> ![pod-hostnet](file://D:/data_files/MarkDown/Images/pod-hostnet.jpg?lastModify=1582436898)
+> ![pod-hostnet](../.gitbook/assets/pod-hostnet.jpg)
 >
 > 0.0
 
