@@ -183,8 +183,13 @@ cgroup即在hierarchy目录下新建limit resource目录--
 ## Charater "*" can be used as a shortcut for "all mounted controllers".
 ##
 $ cgcreate -a root:wyb -g memory,cpu:test_cg    
-$ cgcreate -a root:wyb -g memory,cpu:test_cg/test$ lscgroup |grep testmemory:/test_cgmemory:/test_cg/testcpu,cpuacct:/test_cgcpu,cpuacct:/test_cg/test
-​
+$ cgcreate -a root:wyb -g memory,cpu:test_cg/test
+$ lscgroup |grep test
+memory:/test_cg
+memory:/test_cg/test
+cpu,cpuacct:/test_cg
+cpu,cpuacct:/test_cg/test
+
 ## 每个subsystem都有许多自带的参数文件来实现资源的限制
 $ ls -l /sys/fs/cgroup/memory/test_cg/ |wc -l
 29
