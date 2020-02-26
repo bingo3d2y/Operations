@@ -172,7 +172,9 @@ cat << EOF > tee /etc/docker/daemon.json
     "overlay2.override_kernel_check=true",
     "overlay2.size=10G"
   ],
-  "insecure-registries": ["21.49.22.250"]
+  "insecure-registries": ["21.49.22.250"],
+  ## 这个cgroup driver很关键！
+  "exec-opts": ["native.cgroupdriver=systemd"]
 }
 EOF
 ​
