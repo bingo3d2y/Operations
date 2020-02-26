@@ -173,7 +173,13 @@ root     31012 30464  0 15:58 pts/5    00:00:00 grep sleep
 
 **cgroup = subsystem+ hierarchy**
 
-cgroup即在hierarchy目录下新建limit resource目录--
+当subsystem attached\(mounted\) hierarchy 之后，才能开始创建和使用cgroup
+
+subsystem是内核提供的控制资源的resource controller.
+
+hierarchy是subsystem的mount point常用：`/sys/fs/cgroup/subsystem_name`，称它们为root hierarchy.
+
+cgroup是在root hierarchy下衍生的hierarchy.
 
 ```text
 ## 创建两个cgroup, 继承CPU_Subsystem和Memory_Subsystem
