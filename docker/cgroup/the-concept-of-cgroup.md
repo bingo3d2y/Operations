@@ -148,8 +148,6 @@ Rule3 : Each time a new hierarchy is created on the systems, all tasks on the sy
 
 **一个task不能存在于同一个hierarchy的不同cgroup中，但是一个task可以存在在不同hierarchy中的多个cgroup中。**如果操作时把一个task添加到同一个hierarchy中的另一个cgroup中，则会从第一个cgroup中移除。在下图3中可以看到，`httpd`进程已经加入到hierarchy A中的`/cg1`而不能加入同一个hierarchy中的`/cg2`，但是可以加入hierarchy B中的`/cg3`。实际上不允许加入同一个hierarchy中的其他cgroup也是为了防止出现矛盾，如CPU subsystem为`/cg1`分配了30%，而为`/cg2`分配了50%，此时如果`httpd`在这两个cgroup中，就会出现矛盾。
 
-> single task may be in multiple cgroups, as long as each of those cgroups is in a different hierarchy.
->
 > different hierarchy的定义是：没有共同的parent hierarchy？？？
 >
 > 大多数情况下cpu和memory是分开挂载的。
