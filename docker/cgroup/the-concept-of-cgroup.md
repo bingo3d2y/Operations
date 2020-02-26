@@ -93,6 +93,17 @@ Rule1 ： A single hierarchy can have one or more subsystems attached to it.
 **同一个hierarchy可以附加一个或多个subsystem**
 
 > ```text
+> ## mount -t cgroup -o subsystems name /cgroup/name
+> $ mount -t cgroup -o cpu,cpuset,memory cpu_and_mem /cgroup/cpu_and_mem
+> $ lssubsys -am
+> cpu,cpuset,memory /cgroup/cpu_and_mem
+> net_cls
+> ns
+> cpuacct
+> devices
+> freezer
+> blkio
+>
 > ## cpu和cpuacct组合使用
 > $ ls -l /sys/fs/cgroup/cpu 
 > lrwxrwxrwx 1 root root 11 Dec  3 11:57 /sys/fs/cgroup/cpu -> cpu,cpuacct
@@ -111,6 +122,8 @@ Any single subsystem \(such as `cpu`\) cannot be attached to more than one hiera
 >
 > ```text
 > $ mkdir /tmp/cg_test
+> # mount name: cgroup_root , user define
+> # normal mount：mount /dev/vda /tmp/test
 > $ mount -t tmpfs cgroup_root /tmp/cg_test/
 > $ mkdir  /tmp/cg_test/cpuset
 > # 先挂载cpuset subsystem, True
@@ -119,8 +132,6 @@ Any single subsystem \(such as `cpu`\) cannot be attached to more than one hiera
 > $ mount -t cgroup -o cpu cpu /tmp/cg_test/cpuset
 > mount: cpu is already mounted or /tmp/cg_test/cpuset busy
 > ​
-> # but ,根据 Rule 1，这样一次性挂载多个subsystems是可以的
-> $ mount -t cgroup -o cpu,cpuacct cpu,cpuacct /tmp/cg_test/acct_cpu
 > ```
 >
 > end
