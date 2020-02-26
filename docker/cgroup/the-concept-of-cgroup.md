@@ -77,7 +77,7 @@ Cgroup将指定的tasks\(processes\)与指定的subsystems关联，从而实现�
   hugetlb:/
   ```
 
-* cgroup = （subsystem+ hierarchy） +  declare new\_cgroup
+* cgroup =  subsystem+ hierarchy 
 
   cgroup即在hierarchy目录下新建limit resource目录--
 
@@ -88,7 +88,7 @@ Cgroup将指定的tasks\(processes\)与指定的subsystems关联，从而实现�
   ## defines  control  groups to be added.  controllers is a list of controllers and path is the relative path to control groups in the given controllers list.
   ## Charater "*" can be used as a shortcut for "all mounted controllers".
 
-  ##
+  ## 创建自定义的cgroup
   $ cgcreate -a root:wyb -g memory,cpu:test_cg    
   $ cgcreate -a root:wyb -g memory,cpu:test_cg/test
   $ lscgroup |grep test
