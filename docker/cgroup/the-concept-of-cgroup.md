@@ -93,9 +93,10 @@ Rule1 ： A single hierarchy can have one or more subsystems attached to it.
 **同一个hierarchy可以附加一个或多个subsystem**
 
 > ```text
+> ## cpu和cpuacct组合使用
 > $ ls -l /sys/fs/cgroup/cpu 
 > lrwxrwxrwx 1 root root 11 Dec  3 11:57 /sys/fs/cgroup/cpu -> cpu,cpuacct
-> cpu和cpuacct组合使用
+>
 > ```
 >
 > end
@@ -114,7 +115,7 @@ Any single subsystem \(such as `cpu`\) cannot be attached to more than one hiera
 > $ mkdir  /tmp/cg_test/cpuset
 > # 先挂载cpuset subsystem, True
 > $ mount -t cgroup -o cpuset cpuset /tmp/cg_test/cpuset
-> # 在挂载cpu时, False
+> # 再挂载cpu到mount point时, False
 > $ mount -t cgroup -o cpu cpu /tmp/cg_test/cpuset
 > mount: cpu is already mounted or /tmp/cg_test/cpuset busy
 > ​
@@ -128,7 +129,7 @@ Any single subsystem \(such as `cpu`\) cannot be attached to more than one hiera
 
 Rule3 : Each time a new hierarchy is created on the systems, all tasks on the system are initially members of the default cgroup of that hierarchy, which is known as the _root cgroup_. For any single hierarchy you create, each task on the system can be a member of _exactly one_ cgroup in that hierarchy. A single task may be in multiple cgroups, as long as each of those cgroups is in a different hierarchy. As soon as a task becomes a member of a second cgroup in the same hierarchy, it is removed from the first cgroup in that hierarchy. At no time is a task ever in two different cgroups in the same hierarchy.
 
-系统每次新建一个hierarchy时，该系统上的所有task默认构成了这个新建的hierarchy的初始化cgroup，这个cgroup也称为root cgroup。对于你创建的每个hierarchy，task只能存在于其中一个cgroup中，即**一个task不能存在于同一个hierarchy的不同cgroup中，但是一个task可以存在在不同hierarchy中的多个cgroup中。**如果操作时把一个task添加到同一个hierarchy中的另一个cgroup中，则会从第一个cgroup中移除。在下图3中可以看到，`httpd`进程已经加入到hierarchy A中的`/cg1`而不能加入同一个hierarchy中的`/cg2`，但是可以加入hierarchy B中的`/cg3`。实际上不允许加入同一个hierarchy中的其他cgroup也是为了防止出现矛盾，如CPU subsystem为`/cg1`分配了30%，而为`/cg2`分配了50%，此时如果`httpd`在这两个cgroup中，就会出现矛盾。
+**一个task不能存在于同一个hierarchy的不同cgroup中，但是一个task可以存在在不同hierarchy中的多个cgroup中。**如果操作时把一个task添加到同一个hierarchy中的另一个cgroup中，则会从第一个cgroup中移除。在下图3中可以看到，`httpd`进程已经加入到hierarchy A中的`/cg1`而不能加入同一个hierarchy中的`/cg2`，但是可以加入hierarchy B中的`/cg3`。实际上不允许加入同一个hierarchy中的其他cgroup也是为了防止出现矛盾，如CPU subsystem为`/cg1`分配了30%，而为`/cg2`分配了50%，此时如果`httpd`在这两个cgroup中，就会出现矛盾。
 
 > single task may be in multiple cgroups, as long as each of those cgroups is in a different hierarchy.
 >
@@ -151,7 +152,7 @@ Remember that system processes are called tasks in cgroup terminology.
 You can only attach ONE task at a time.If you have several tasks to attach, you have to do it one after another
 
 ```text
-1. Note tasks file (这个吊啊写个api接口，美滋滋)
+1. Note tasks file 
 $ /bin/echo PID > tasks
 Note that it is PID, not PIDs. You can only attach ONE task at a time.
 If you have several tasks to attach, you have to do it one after another:
@@ -271,5 +272,9 @@ end
 
 [https://access.redhat.com/documentation/en-us/red\_hat\_enterprise\_linux/6/html/resource\_management\_guide/sec-relationships\_between\_subsystems\_hierarchies\_control\_groups\_and\_tasks](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/sec-relationships_between_subsystems_hierarchies_control_groups_and_tasks)
 
-[http://atum.li/2017/04/25/linuxsandbox/\#restricted-bash](http://atum.li/2017/04/25/linuxsandbox/#restricted-bash)
+[https://www.infoq.cn/article/docker-kernel-knowledge-cgroups-resource-isolation/?utm\_source=tuicool&utm\_medium=referral](https://www.infoq.cn/article/docker-kernel-knowledge-cgroups-resource-isolation/?utm_source=tuicool&utm_medium=referral)
+
+{% embed url="http://atum.li/2017/04/25/linuxsandbox/\#restricted-bash" %}
+
+
 
