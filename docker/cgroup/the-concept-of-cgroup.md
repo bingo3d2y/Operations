@@ -151,6 +151,8 @@ Rule3 : Each time a new hierarchy is created on the systems, all tasks on the sy
 > single task may be in multiple cgroups, as long as each of those cgroups is in a different hierarchy.
 >
 > different hierarchy的定义是：没有共同的parent hierarchy？？？
+>
+> 大多数情况下cpu和memory是分开挂载的。
 
 ![cgroup-rule-3](../../.gitbook/assets/cgroup-rule-3.png)
 
