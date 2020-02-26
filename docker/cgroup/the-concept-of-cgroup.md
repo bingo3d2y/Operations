@@ -66,22 +66,28 @@ A _hierarchy_ is a set of cgroups arranged in a tree, such that every task in th
 **Each hierarchy starts its life as a root cgroup, which initially holds all processes.**
 
 ```text
-## list all cgroups
-## <controllers>:<path>
-## defines the control groups whose subgroups will be shown. 
- 
-## 每个/ 下面有好多的control group 
-$lscgroup |grep '/$'  
-memory:/  
-freezer:/
-devices:/
-net_cls,net_prio:/
-perf_event:/
-pids:/
-cpuset:/
-blkio:/
-cpu,cpuacct:/
-hugetlb:/
+## 列出挂载点 即 root hierarchy
+$ lssubsys  -m  
+cpuset /sys/fs/cgroup/cpuset
+cpu,cpuacct /sys/fs/cgroup/cpu,cpuacct
+blkio /sys/fs/cgroup/blkio
+memory /sys/fs/cgroup/memory
+devices /sys/fs/cgroup/devices
+freezer /sys/fs/cgroup/freezer
+net_cls,net_prio /sys/fs/cgroup/net_cls,net_prio
+perf_event /sys/fs/cgroup/perf_event
+hugetlb /sys/fs/cgroup/hugetlb
+pids /sys/fs/cgroup/pids
+
+## A single hierarchy can  multi-subsystems attached to it.
+$ lssubsys -am
+cpu,cpuset,memory /cgroup/cpu_and_mem
+net_cls
+ns
+cpuacct
+devices
+freezer
+blkio
 ```
 
 Hierarchy的挂载规则
@@ -183,7 +189,7 @@ root     30799 30293  0 15:58 pts/4    00:00:00 sleep 66000
 root     31012 30464  0 15:58 pts/5    00:00:00 grep sleep
 ```
 
-**cgroup = subsystem+ hierarchy**
+**cgroup = \(subsystem+ hierarchy\) + declare new\_cgroup**
 
 当subsystem attached\(mounted\) hierarchy 之后，才能开始创建和使用cgroup
 
@@ -194,6 +200,24 @@ hierarchy是subsystem的mount point常用：`/sys/fs/cgroup/subsystem_name`，�
 cgroup是在root hierarchy下衍生的hierarchy.
 
 ```text
+## list all cgroups
+## <controllers>:<path>
+## defines the control groups whose subgroups will be shown. 
+ 
+## 每个/ 下面有好多的control group 
+$lscgroup |grep '/$'  
+memory:/  （这个/ 即lssubsys -m 显示的root hierarchy的目录  ）
+freezer:/
+devices:/
+net_cls,net_prio:/
+perf_event:/
+pids:/
+cpuset:/
+blkio:/
+cpu,cpuacct:/
+hugetlb:/
+
+
 ## 创建两个cgroup, 继承CPU_Subsystem和Memory_Subsystem
 ## 即会在cpu和memory的这个两个root hierarchy下各建一个名为mycoolgroup和mycoolgroup/test的目录
 ## -g <controllers>:<path> controllers即subsystem
