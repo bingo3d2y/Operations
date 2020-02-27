@@ -30,6 +30,8 @@
 
 ## Linux <a id="test_group_3"></a>
 
+* [Kernel](test_group_3/kernel/README.md)
+  * [参数优化](test_group_3/kernel/can-shu-you-hua.md)
 * [基础](test_group_3/t3/README.md)
   * [kernel](test_group_3/t3/kernel.md)
   * [Memory（未）](test_group_3/t3/memory.md)
@@ -57,7 +59,7 @@
 * [Storage Driver（未整理）](docker/storage-driver.md)
 * [Cgroup](docker/cgroup/README.md)
   * [The concept of cgroup](docker/cgroup/the-concept-of-cgroup.md)
-  * [Systemd with Cgroup](docker/cgroup/systemd-with-cgroup.md)
+  * [Systemd and Cgroup](docker/cgroup/systemd-with-cgroup.md)
   * [Docker with Cgroup](docker/cgroup/docker-with-cgroup.md)
 * [Namespace](docker/namespace/README.md)
   * [The concept of namespace](docker/namespace/the-foundation-of-namespace.md)

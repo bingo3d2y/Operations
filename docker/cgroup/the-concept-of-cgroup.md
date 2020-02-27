@@ -31,6 +31,19 @@ subsystem ：resource controller，用来调度和限制进程资源
 
 每个subsystem会自带许多的文件来控制该子系统的资源、
 
+Red Hat Enterprise Linux 7/Centos 7 中可用的管控器
+
+* `blkio` —— 对输入 ∕ 输出访问存取块设备设定权限；
+* `cpu` —— 使用 CPU 调度程序让 cgroup 的任务可以存取 CPU。它与 `cpuacct` 管控器一起挂载在同一 mount 上；
+* `cpuacct` —— 自动生成 cgroup 中任务占用 CPU 资源的报告。它与 `cpu` 管控器一起挂载在同一 mount 上；
+* `cpuset` —— 给 cgroup 中的任务分配独立 CPU（在多芯系统中）和内存节点；
+* `devices` —— 允许或禁止 cgroup 中的任务存取设备；
+* `freezer` —— 暂停或恢复 cgroup 中的任务；
+* `memory` —— 对 cgroup 中的任务可用内存做出限制，并且自动生成任务占用内存资源报告；
+* `net_cls` —— 使用等级识别符（classid）标记网络数据包，这让 Linux 流量控制器（`tc`指令）可以识别来自特定 cgroup 任务的数据包；
+* `perf_event` —— 允许使用 **perf** 工具来监控 cgroup；
+* `hugetlb` —— 允许使用大篇幅的虚拟内存页，并且给这些内存页强制设定可用资源量
+
 ```text
 ## list all subsystems
 $ lssubsys  -m  ## 列出挂载点
