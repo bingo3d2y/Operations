@@ -255,6 +255,26 @@ $ cgexec -g memory:test_cg sleep 666  &
 [1] 25205
 $ cat /sys/fs/cgroup/memory/test_cg/tasks 
 25205
+
+$ cat /proc/25205/cgroup 
+11:freezer:/
+10:cpu,cpuacct:/system.slice/ssh.service
+9:perf_event:/
+8:memory:/test_cg
+7:hugetlb:/
+6:devices:/system.slice/ssh.service
+5:net_cls,net_prio:/
+4:blkio:/system.slice/ssh.service
+3:pids:/system.slice/ssh.service
+2:cpuset:/
+1:name=systemd:/system.slice/ssh.service
+
+## A child task automatically inherits the cgroup membership of its parent
+$ systemd-cgls |grep ssh.service -A2
+  ├─ssh.service
+  │ ├─  648 sleep 666
+  │ ├─ 1379 systemd-cgls
+
 ​
 ## 或者 先启动进程，然后将进程pid手动写到cgroup_dir/tasks 文件中
 $ sleeep 666 &
