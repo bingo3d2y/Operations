@@ -41,6 +41,14 @@ $ cat /sys/fs/cgroup/memory/system.slice/docker-25a085a3c8186cc0f691acad85b735a7
 536870912
 ​
 ​
+$ systemd-cgls
+...
+  ├─system.slice
+  	├─docker-25a085a3c8186cc0f691acad85b735a763ec389fd14e426f5ae9e51d5eef6ce8.scope
+	  ├─ 2592 nginx: master ...
+	  ├─ 2592 nginx: worker ...		
+	
+
 ## 对比 native.cgroupdriver=cgroupfs ,cgroupfs是默认值
 $ cat /etc/docker/daemon.json 
 {
