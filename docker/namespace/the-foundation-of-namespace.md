@@ -325,7 +325,46 @@ Accept-Ranges: bytes
 
 容器的隔离实现基本就是通过Linux内核提供的这7种namespace实现。但是这些ns依旧没有实现完全的环境隔离。比如: `SELinux`,`Cgroups`以及`/sys`,`/proc/sys`, `/dev/sd*`等目录下的资源依据是没有被隔离的。因此在容器中通常使用的`ps`， `top`命令查看到的数据依旧是宿主机的数据。因为它们的数据来源于`/proc`等目录下的文件。如果想要在可视化的角度来实现这方便的可视化隔离。可以看看之前调研的[lxcfs对docker容器隔离](https://xigang.github.io/2018/06/30/lxcfs/)。
 
-引用:
+息。
+
+```text
+# ls /sys/fs/cgroup/memory/system.slice/docker-b8055e53c7c37a7850916bc00f314f760025423be4a164619494a4ac70852960.scope/
+cgroup.clone_children           memory.kmem.tcp.max_usage_in_bytes  memory.oom_control
+cgroup.event_control            memory.kmem.tcp.usage_in_bytes      memory.pressure_level
+cgroup.procs                    memory.kmem.usage_in_bytes          memory.soft_limit_in_bytes
+memory.failcnt                  memory.limit_in_bytes               memory.stat
+memory.force_empty              memory.max_usage_in_bytes           memory.swappiness
+memory.kmem.failcnt             memory.memsw.failcnt                memory.usage_in_bytes
+memory.kmem.limit_in_bytes      memory.memsw.limit_in_bytes         memory.use_hierarchy
+memory.kmem.max_usage_in_bytes  memory.memsw.max_usage_in_bytes     notify_on_release
+memory.kmem.slabinfo            memory.memsw.usage_in_bytes         tasks
+memory.kmem.tcp.failcnt         memory.move_charge_at_immigrate
+memory.kmem.tcp.limit_in_bytes  memory.numa_stat
+0.0 都是一个个目录啊。
+$ docker  run -itd -m=10m    ad87b /bin/bash
+b8055e53c7c37a7850916bc00f314f760025423be4a164619494a4ac70852960
+## 由于docker的cgroupderive设置成了systemd所以是下面的层级结构
+##  呐，内存确实被限制了
+$ cat /sys/fs/cgroup/memory/system.slice/docker-b8055e53c7c37a7850916bc00f314f760025423be4a164619494a4ac70852960.scope/memory.max_usage_in_bytes 
+10485760
+# pwd
+/sys/fs/cgroup/memory/system.slice/docker-6980bbe4ac5a8e24b1d324d24f54e9062452a5ab58f5af724656ec3c3f577e1a.scope
+不做内存限制时，max_usage_memory如下：
+$ cat memory.max_usage_in_bytes 
+8634368
+​
+# but，容器里面显示还是8G，因为container里面没有读到cgroup。0.0
+$ docker exec -it  698 /bin/bash
+[root@6980bbe4ac5a /]# free -h
+              total        used        free      shared  buff/cache   available
+Mem:           7.6G        3.8G        1.3G        816K        2.6G        3.5G
+Swap:          4.0G        6.9M        4.0G
+​
+```
+
+end
+
+参考:
 
 [https://www.darkreading.com/risk/the-pros-and-cons-of-application-sandboxing/d/d-id/1138452](https://www.darkreading.com/risk/the-pros-and-cons-of-application-sandboxing/d/d-id/1138452)
 
