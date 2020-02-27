@@ -15,6 +15,11 @@ description: 'Control Groups: isolate/limits resource'
 
 > The Linux kernel provides the cgroups functionality that allows limitation and prioritization of resources \(CPU, memory, block I/O, network, etc.\) without the need for starting any virtual machines, and also namespace isolation functionality that allows complete isolation of an applications’ view of the operating environment, including process trees, networking, user IDs and mounted file systems.
 
+对于不可压缩资源Cgroup是强制管理的，但是对于可压缩资源（CPU），Cgroup在资源不足时，会按照比重进行分配：
+
+1. **cgroup 只能限制 CPU 的使用，而不能保证CPU的使用**。也就是说， 使用 cpuset-cpus，可以让容器/进程在指定的CPU或者核上运行，但是不能确保它独占这些CPU；cpu-shares 是个相对值，只有在CPU不够用的时候才其作用。也就是说，当CPU够用的时候，每个容器/进程会分到足够的CPU；不够用的时候，会按照指定的比重在多个容器之间分配CPU。
+2. 对内存来说，cgroups 可以限制容器/进程最多使用的内存。使用 -m 参数可以设置最多可以使用的内存。
+
 **What are cgroups ?**
 
 A _cgroup_ associates a set of tasks with a set of parameters for one or more subsystems.
@@ -322,6 +327,7 @@ and then start a subshell 'sh' in that cgroup:
   # 此处会继承parent directory中的参数文件
   mkdir Charlie
   cd Charlie
+  # 或者使用 cgset -r cpu.cpus=2-3 $UUID(Charlie)
   /bin/echo 2-3 > cpuset.cpus
   /bin/echo 1 > cpuset.mems
   # 将当前进程pid写入tasks

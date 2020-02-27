@@ -33,7 +33,7 @@ The **Systemd** unit tree is made up of several parts:
 默认情况下，系统会创建四种 slice，系统通过这些slice来划分和管理系统资源：
 
 * **-.slice**：根 slice
-* **system.slice**：所有系统 service 的默认位置，啧啧
+* **system.slice**：所有系统 service 的默认位置，啧啧 如果设置`systemctl set-property system.slice CPUShares=7168` ，那么系统中所以的unit service总的cpu资源加起来都不会超过这个值。
 * **user.slice**：所有用户会话的默认位置
 * **machine.slice**：所有虚拟机和 Linux 容器的默认位置
 
