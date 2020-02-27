@@ -25,14 +25,6 @@ $ cat /sys/fs/cgroup/cpu/docker/06bd180cd340f8288c18e8f0e01ade66d066058dd053ef46
 
 从上面可以看到Docker通过守护进程维护了自己的cgroup目录，而Systemd本身已经高度集成了cgroup，因为我们可以修改docker的cgroup驱动参数，将systemd作为默认的cgroup管理工具，这样其他进程调用docker runtime时，更加稳健，比如：kubelet.
 
-> When systemd is chosen as the init system for a Linux distribution, the init process generates and consumes a root control group \(`cgroup`\) and acts as a cgroup manager. Systemd has a tight integration with cgroups and will allocate cgroups per process. It’s possible to configure your container runtime and the kubelet to use `cgroupfs`. **Using `cgroupfs` alongside systemd means that there will then be two different cgroup managers.**
->
-> Control groups are used to constrain resources that are allocated to processes. A single cgroup manager will simplify the view of what resources are being allocated and will by default have a more consistent view of the available and in-use resources. When we have two managers we end up with two views of those resources. We have seen cases in the field where nodes that are configured to use `cgroupfs` for the kubelet and Docker, and `systemd` for the rest of the processes running on the node becomes unstable under resource pressure.
->
-> **Changing the settings such that your container runtime and kubelet use `systemd` as the cgroup driver stabilized the system. Please note the `native.cgroupdriver=systemd` option in the Docker setup below.**
->
-> 大致意思，Systemd已经高度集成了Cgroup了。不要在使用docker 默认的`native.cgroupdriver=cgropufs`管理方式。因为存在kubelet默认使用`systemd`作为cgroup\_drivers 而docker 默认使用`cgroups`作为cgroup\_drivers。两者若不统一则会报错（因为存在两个resources managers）。所以生成环境需要统一，设置成`systemd`.即给docker daemon配置 `native.cgroupdriver=systemd` 。
-
 ```text
 ## 修改native.cgroupdriver
 $ cat /etc/docker/daemon.json 
