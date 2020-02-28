@@ -32,7 +32,6 @@
 
 * [Kernel](test_group_3/kernel/README.md)
   * [总结整理的参数优化](test_group_3/kernel/zong-jie-zheng-li-de-can-shu-you-hua.md)
-  * [参数优化](test_group_3/kernel/can-shu-you-hua.md)
 * [基础](test_group_3/t3/README.md)
   * [kernel](test_group_3/t3/kernel.md)
   * [Memory（未）](test_group_3/t3/memory.md)
