@@ -321,6 +321,79 @@ Accept-Ranges: bytes
 ​
 ```
 
+**Container hostname**
+
+在已运行的容器中无法修改container hostname的原因：就行user namespace中的root用户权限不够。
+
+```text
+$ cat test.c 
+#define _GNU_SOURCE
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdio.h>
+#include <sched.h>
+#include <signal.h>
+#include <unistd.h>
+int main ()
+{
+  sethostname("In Namespace", 12); // 主机名长，12个字符
+  // Linux上hostname 命令就是调用这个函数设置主机名的。
+}
+​
+#  编译文件，默认生成a.out 可执行文件
+$ gcc test.c 
+​
+# 非root 下执行a.out 即调用sethostname()函数设置主机名时失败
+[admin@hz-hsyqzs-nginx-97-54 ~]$ /tmp/a.out 
+[admin@hz-hsyqzs-nginx-97-54 ~]$ hostname
+hz-hsyqzs-nginx-97-54
+[admin@hz-hsyqzs-nginx-97-54 ~]$ /tmp/a.out 
+# 失败
+[admin@hz-hsyqzs-nginx-97-54 ~]$ echo $?  
+255
+​
+### root用户执行 a.out
+[root@hz-hsyqzs-nginx-97-54 ~]# /tmp/a.out 
+[root@hz-hsyqzs-nginx-97-54 ~]# hostname
+In Namespace
+​
+so，答案显而易见，容器在主机名不能修改是权限问题，要想改容器命令有两个方法：
+1. 用root权限给容器命名，即在docker run的时候指定container name
+#  docker run -h somehostname     
+-h, --hostname=""
+   Container host name
+   
+2. 给容器root权限
+[root@hz-hsyqzs-nginx-97-54 ns]# docker run -d  --cap-add SYS_ADMIN  50a9d31
+root@8894ddf56df0:/# hostname lol
+root@8894ddf56df0:/# hostname 
+lol
+root@8894ddf56df0:/# exit
+[root@hz-hsyqzs-nginx-97-54 ns]# hostname  //调用clone()时加了CLONE_NEWUTS，不会影响host
+hz-hsyqzs-nginx-97-54
+[root@hz-hsyqzs-nginx-97-54 ns]# docker exec -it 889 /bin/bash
+root@lol:/# hostname                                                                         
+lol
+--cap-add=[]
+   Add Linux capabilities
+```
+
+**简而言之， docker的容器中的root的权限是有严格限制的** 默认去掉了很多capabilities。
+
+**docker提供了下面几个参数，用于管理容器的权限：**
+
+> –cap-add: Add Linux capabilities
+>
+> –cap-drop: Drop Linux capabilities
+>
+> –privileged=false: Give extended privileges to this container
+>
+> –device=\[\]: Allows you to run devices inside the container without the –privileged flag.
+
+SYS\_ADMIN对应的是Linux capabilities中的`CAP_SYS_ADMIN` （man 7 capabilities能看到全部的capabilities）。通man手册一查便知，这个`CAP_SYS_ADMIN` 包含了sethostname\(\)函数的调用权限--哈哈哈
+
+\*\*\*\*
+
 **LXCFS**
 
 容器的隔离实现基本就是通过Linux内核提供的这7种namespace实现。但是这些ns依旧没有实现完全的环境隔离。比如: `SELinux`,`Cgroups`以及`/sys`,`/proc/sys`, `/dev/sd*`等目录下的资源依据是没有被隔离的。因此在容器中通常使用的`ps`， `top`命令查看到的数据依旧是宿主机的数据。因为它们的数据来源于`/proc`等目录下的文件。如果想要在可视化的角度来实现这方便的可视化隔离。可以看看之前调研的[lxcfs对docker容器隔离](https://xigang.github.io/2018/06/30/lxcfs/)。
