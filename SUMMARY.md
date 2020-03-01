@@ -52,6 +52,8 @@
 
 ## Docker
 
+* [Daemon](docker/daemon/README.md)
+  * [Logging Driver](docker/daemon/logging-driver.md)
 * [Container](docker/container/README.md)
   * [PID 1](docker/container/pid-1.md)
 * [Image](docker/image/README.md)
