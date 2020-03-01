@@ -2,6 +2,14 @@
 
 **Harbor**
 
+\*\*\*\*
+
+```text
+    0.0 再看下配置文件验证下--
+    #  这写个tag 就是日志的名字比如： registry.log
+    # 由syslogd接收并处理这个tags字段。
+```
+
 PS： `prepare`会根据`harbor.cfg`生成`harbor/common/config`下的配置文件。
 
 但是，用户会根据自己的意愿再修改`harbor/common/config`下的配置，所以。确定最终配置时要看`harbor/common/config`下的配置文件，而不是`harbor.cfg`
