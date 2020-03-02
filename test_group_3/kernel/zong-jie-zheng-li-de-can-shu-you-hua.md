@@ -40,6 +40,17 @@ This file contains the documentation for the sysctl files in /proc/sys/\*
 
 Linux下一切皆文件，比如一个连接要打开一个socket句柄文件（file descriptor）。
 
+Linux中文件一旦被进程打开，那么如果该进程一直不释放该file的fd，那么该文件纵然被删除了也不会真正的释放disk space.通过`lsof`还是可以看到那些被标记delete但是并没有真正释放空间的文件。
+
+> nviolability of private property
+
+You can "free" space in two ways then:
+
+1. as mentioned above - you can kill application, which open file. 即`restart Application`
+2. you can... truncate file. Even if it's deleted即 `> filename`
+
+这里，很明显重启应用去达到释放disk space是不可取的，所以以后清理文件时记得使用: `> filename`
+
 * fs.file-max
 
   系统级限制： 所有用户总共能打开的文件描述符数.
