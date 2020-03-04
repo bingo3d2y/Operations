@@ -6,7 +6,9 @@ Operations
 
 
 
-19年底才决定用Gitbook当小站，笔记整理上传中--
+参考文章已尽量列出，如有遗漏请联系：bingo3d2y@gmail.com
+
+笔记整理上传中--
 
 
 
