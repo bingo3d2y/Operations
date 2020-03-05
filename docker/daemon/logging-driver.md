@@ -227,6 +227,10 @@ Writes log messages to `journald`.
 
 使用`journald log deriver` 时，容器日志会被重定向到`journald` ,可以用`journalctl` 查看
 
+好处么，可以利用`journald`日志服务本身的一些特性，比如按时间查找日志：
+
+`journalctl -u docker-hashID --since "2020-03-03 03:00:00" --until "2020-03-04 00:00:00"`
+
 ```text
 #  container 使用journald log deriver的情况
 $ docker logs 2a440addaa8b
