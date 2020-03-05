@@ -1,10 +1,8 @@
-# backlog
+# backlog（转载）
 
   
 **nginx 的 backlog**  
-
-
-我们使用方式一尝试给 nginx pod 的 `somaxconn` 调高到 8096 后观察:
+给 nginx pod 的 `somaxconn` 调高到 8096 后观察:
 
 ```text
 $ ss -lnt
