@@ -36,7 +36,9 @@ Copy-on-write在对数据进行修改的时候，**不会直接在原来的数�
 
 Union File System, 联合文件系统，所谓UnionFS就是把不同物理位置的目录合并mount到同一个目录中。
 
-把多个目录 mount 成一个，那么读写操作是怎样的呢？
+把多个目录 mount 成一个，那么读写操作是怎样的呢，不同是驱动实现方式是不一样的：
+
+**OverlaFS和AUFS的实现类似:**
 
 * 默认情况下，最上层的目录为读写层，只能有一个；下面可以有一个或者多个只读层
 * 读文件，打开文件的时候使用了 `O_RDONLY` 选项：从最上面一个开始往下逐层去找，打开第一个找到的文件，读取其中的内容
@@ -46,9 +48,16 @@ Union File System, 联合文件系统，所谓UnionFS就是把不同物理位置
 * 写文件，打开文件时用了`O_WRONLY` 或者 `O_RDWR`选项
   * 如果在最上层找到了该文件，直接打开
   * 否则，从上往下开始查找，找到文件后，把文件复制到最上层，然后再打开这个 copy（所以，如果要读写的文件很大，这个过程耗时会很久 ，cow机制的弊端）
-* 删除文件：在最上层创建一个 whiteout 文件，`.wh.<origin_file_name>`，就是在原来的文件名字前面加上 `.wh.`
+* 重命名：同层文件调用传统的`rename()`， 不同层的重命名操作，需要借助`EXDEV`自己捕获异常并处理即先copy在rename.
+* 删除文件：在最上层创建一个 whiteout 文件，从而达到unlink\(屏蔽底层文件\)。
+
+  aufs是：`.wh.<origin_file_name>` ,overlay/overlay2则直接就是`<origin_file_name>`
 
   即UnionFS无法实现真正的删除，它的删除是通在上层创建whiteout文件来屏蔽底层的文件。
+
+Device mapper:
+
+\*\*\*\*
 
 **images layers**
 
