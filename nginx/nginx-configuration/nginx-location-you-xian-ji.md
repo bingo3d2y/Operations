@@ -1,4 +1,4 @@
-# Nginx Location
+# Nginx Location priority
 
 **Problems：Nginx 增加很简单的location后，访问验证发现不生效**
 
