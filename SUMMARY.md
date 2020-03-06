@@ -47,8 +47,9 @@
   * [k8s集群参数优化](kubernetes/ji-chu-zu-jian/k8s-ji-qun-can-shu-you-hua.md)
 * [Network](kubernetes/network/README.md)
   * [calico部署和基本概念](kubernetes/network/apiserver.md)
-* [容器应用](kubernetes/rong-qi-ying-yong/README.md)
+* [无状态容器应用](kubernetes/rong-qi-ying-yong/README.md)
   * [高并发容器应用优化](kubernetes/rong-qi-ying-yong/gao-bing-fa-rong-qi-ying-yong-you-hua.md)
+* [有状态应用](kubernetes/you-zhuang-tai-ying-yong.md)
 * [监控（未整理）](kubernetes/jian-kong.md)
 
 ## Docker
@@ -80,7 +81,7 @@
 ## Shell
 
 * [Script](shell/script/README.md)
-  * [Shell Script](shell/script/shell-script.md)
+  * [Shell Script（待整理细分）](shell/script/shell-script.md)
 
 ## TCP/IP
 
