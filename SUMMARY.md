@@ -12,7 +12,6 @@
   * [php 优化\(未完成\)](nginx/nginx-as-a-reverse-proxy/performance-tuning-for-php.md)
   * [Nginx + Python（未完成）](nginx/nginx-as-a-reverse-proxy/t.md)
   * [Web Socket（未完成）](nginx/nginx-as-a-reverse-proxy/web-socket.md)
-  * [keepalive（未完成）](nginx/nginx-as-a-reverse-proxy/keepalive.md)
   * [upstream（未完成）](nginx/nginx-as-a-reverse-proxy/upstream.md)
 * [Nginx global configuration](nginx/nginx-configuration/README.md)
   * [select and poll and epoll](nginx/nginx-configuration/select-and-poll-and-epoll.md)
