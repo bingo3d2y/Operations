@@ -1,4 +1,4 @@
-# Nginx Reverse Proxy
+# Nginx as a reverse proxy
 
 因为Tomcat已经是java web server了？？？
 

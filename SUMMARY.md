@@ -4,12 +4,13 @@
 
 ## Nginx
 
-* [Nginx Reverse Proxy](nginx/nginx-reverse-proxy/README.md)
-  * [Nginx HTTP Status Code](nginx/nginx-reverse-proxy/nginx-http-status-code.md)
-  * [Let nginx start if upstream host is unavailable or down](nginx/nginx-reverse-proxy/let-nginx-start-if-upstream-host-is-unavailable-or-down.md)
-  * [Web Socket（未完成）](nginx/nginx-reverse-proxy/web-socket.md)
-  * [keepalive（未完成）](nginx/nginx-reverse-proxy/keepalive.md)
-  * [upstream（未完成）](nginx/nginx-reverse-proxy/upstream.md)
+* [Nginx as a reverse proxy](nginx/nginx-as-a-reverse-proxy/README.md)
+  * [proxy configuration](nginx/nginx-as-a-reverse-proxy/proxy-configuration.md)
+  * [Nginx HTTP Status Code](nginx/nginx-as-a-reverse-proxy/nginx-http-status-code.md)
+  * [Let nginx start if upstream host is unavailable or down](nginx/nginx-as-a-reverse-proxy/let-nginx-start-if-upstream-host-is-unavailable-or-down.md)
+  * [Web Socket（未完成）](nginx/nginx-as-a-reverse-proxy/web-socket.md)
+  * [keepalive（未完成）](nginx/nginx-as-a-reverse-proxy/keepalive.md)
+  * [upstream（未完成）](nginx/nginx-as-a-reverse-proxy/upstream.md)
 * [Nginx configuration](nginx/nginx-configuration/README.md)
   * [select and poll and epoll](nginx/nginx-configuration/select-and-poll-and-epoll.md)
   * [Nginx Location](nginx/nginx-configuration/nginx-location-you-xian-ji.md)
