@@ -18,7 +18,7 @@
   * [select and poll and epoll](nginx/nginx-configuration/select-and-poll-and-epoll.md)
   * [Nginx Location priority](nginx/nginx-configuration/nginx-location-you-xian-ji.md)
   * [Nginx Virtual Servers priority](nginx/nginx-configuration/server-blocks-or-virtual-hosts.md)
-  * [https](nginx/nginx-configuration/ssl.md)
+  * [https and SNI](nginx/nginx-configuration/ssl.md)
   * [Nginx Module（未完成）](nginx/nginx-configuration/nginx-module.md)
   * [backlog（转载）](nginx/nginx-configuration/backlog.md)
 * [Nginx as a Web server](nginx/nginx-as-a-web-server.md)

@@ -2,7 +2,7 @@
 description: Nginx && SSL && OpenSSL
 ---
 
-# https
+# https and SNI
 
 **Problem**
 
