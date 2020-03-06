@@ -40,7 +40,9 @@
 
 ## Kubernetes
 
-* [基础组件](kubernetes/ji-chu-zu-jian/README.md)
+* [The concept of k8s](kubernetes/the-concept-of-k8s/README.md)
+  * [kube-proxy](kubernetes/the-concept-of-k8s/kube-proxy.md)
+* [基本搭建](kubernetes/ji-chu-zu-jian/README.md)
   * [k8s平台搭建（仅上传了第一阶段其他组件比较乱还未整理）](kubernetes/ji-chu-zu-jian/k8s-ping-tai-da-jian.md)
   * [HA Harbor](kubernetes/ji-chu-zu-jian/ha-harbor.md)
   * [k8s集群参数优化](kubernetes/ji-chu-zu-jian/k8s-ji-qun-can-shu-you-hua.md)
