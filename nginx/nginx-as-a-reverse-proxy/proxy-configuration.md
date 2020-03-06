@@ -1,4 +1,4 @@
-# proxy configuration
+# general proxy configuration
 
 
 
