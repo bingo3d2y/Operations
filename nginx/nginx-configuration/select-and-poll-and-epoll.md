@@ -8,3 +8,7 @@ description: select and poll and epoll
 
 Nginx epoll 模型
 
+emm，惊群、accept\_mutex、epoll和multi\_accept.
+
+东西有点多--
+
