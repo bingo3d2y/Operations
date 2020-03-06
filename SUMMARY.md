@@ -14,7 +14,7 @@
   * [Web Socket（未完成）](nginx/nginx-as-a-reverse-proxy/web-socket.md)
   * [upstream（未完成）](nginx/nginx-as-a-reverse-proxy/upstream.md)
 * [Nginx global configuration](nginx/nginx-configuration/README.md)
-  * [select and poll and epoll](nginx/nginx-configuration/select-and-poll-and-epoll.md)
+  * [Nginx events](nginx/nginx-configuration/select-and-poll-and-epoll.md)
   * [Nginx Location priority](nginx/nginx-configuration/nginx-location-you-xian-ji.md)
   * [Nginx Virtual Servers priority](nginx/nginx-configuration/server-blocks-or-virtual-hosts.md)
   * [https and SNI](nginx/nginx-configuration/ssl.md)
