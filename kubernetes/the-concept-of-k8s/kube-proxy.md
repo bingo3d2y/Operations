@@ -20,7 +20,7 @@ Client --&gt; ServiceIP\(iptables\) --&gt; kube-proxy --&gt; Backend Pod
 
 即User--&gt; kernel --&gt; User
 
-![services-userspace-overview](file://D:/data_files/MarkDown/Images/services-userspace-overview.svg?lastModify=1583593638)
+![](../../.gitbook/assets/services-userspace-overview.svg)
 
 Note：iptables本身不具备防火墙功能，是通过内核的netfilter来实现。
 
@@ -34,7 +34,7 @@ In this mode, kube-proxy watches the Kubernetes control plane for the addition a
 
 `kube-proxy`通过watch Service and Endpoint objects events，来对iptables rules进行增删改查，从而将客户端请求通过iptables直接发送到对应的后端pods.
 
-![services-iptables-overview](file://D:/data_files/MarkDown/Images/services-iptables-overview.svg?lastModify=1583593638)
+![](../../.gitbook/assets/services-iptables-overview.svg)
 
 By default, kube-proxy in iptables mode chooses a backend at random.
 
@@ -104,7 +104,7 @@ In `ipvs` mode, kube-proxy watches Kubernetes Services and Endpoints, calls `net
 
 kube-proxy 的 IPVS 模式和iptables类似，kube-proxy监控Services and Endpoint的变化并创建相应的ipvs rules，然后经由lvs中的VIP直接转发到后端pod.
 
-![services-ipvs-overview](file://D:/data_files/MarkDown/Images/services-ipvs-overview.svg?lastModify=1583593638)
+![](../../.gitbook/assets/services-ipvs-overview.svg)
 
 Similar to iptables, Ipvs is based on netfilter hook function, but uses hash table as the underlying data structure and works in the kernel space. That means ipvs redirects traffic much faster, and has much better performance when syncing proxy rules.
 
