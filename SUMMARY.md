@@ -41,8 +41,9 @@
 ## Kubernetes
 
 * [The concept of k8s](kubernetes/the-concept-of-k8s/README.md)
-  * [kube-controller-manager](kubernetes/the-concept-of-k8s/kube-controller-manager.md)
   * [kube-proxy](kubernetes/the-concept-of-k8s/kube-proxy.md)
+  * [k8s: authentication and authorization](kubernetes/the-concept-of-k8s/k8s-authentication-and-authorization.md)
+  * [kube-controller-manager](kubernetes/the-concept-of-k8s/kube-controller-manager.md)
 * [基本搭建](kubernetes/ji-chu-zu-jian/README.md)
   * [k8s平台搭建（仅上传了第一阶段其他组件比较乱还未整理）](kubernetes/ji-chu-zu-jian/k8s-ping-tai-da-jian.md)
   * [HA Harbor](kubernetes/ji-chu-zu-jian/ha-harbor.md)
