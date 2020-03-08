@@ -22,7 +22,7 @@ These controllers include:
   This controller will watch both the ReplicaSet resource and a set of Pods based on the selector in that resource. It then takes action to create/destroy Pods in order to maintain a stable set of Pods as described in the ReplicaSet.
 
 * **Endpoints Controller**: Populates the Endpoints object \(that is, joins Services & Pods\).
-* **Service Account & Token Controllers**: Create default accounts and API access tokens for new namespaces.
+* **Service Account & Token Controllers**: Create default accounts and API access tokens for new namespaces. 保证--Service account automation
 
 这里，后续再研究某个control loop代码在来深入吧。
 
