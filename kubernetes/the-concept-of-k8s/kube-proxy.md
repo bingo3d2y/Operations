@@ -96,6 +96,8 @@ iptables-mode中，无法`ping`通过`ClusterIP`因为它只存在iptables中，
 
 **Proxy-mode：ipvs**
 
+IPVS 中有三种代理模式：NAT（masq），IPIP 和 DR。 只有 NAT 模式支持端口映射。 Kube-proxy 利用 NAT 模式进行端口映射
+
 iptables 难以扩展到成千上万的服务，因为它纯粹是为防火墙而设计的，基于内核规则列表来实现，当k8s集群中大量的services，查找和新增规则时会有很高的延时。
 
 In `ipvs` mode, kube-proxy watches Kubernetes Services and Endpoints, calls `netlink` interface to create IPVS rules accordingly and synchronizes IPVS rules with Kubernetes Services and Endpoints periodically. This control loop ensures that IPVS status matches the desired state. When accessing a Service, IPVS directs traffic to one of the backend Pods.
