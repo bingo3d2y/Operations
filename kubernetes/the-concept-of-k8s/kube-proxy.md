@@ -299,6 +299,7 @@ If kube-proxy starts with `--masquerade-all=true`, the IPVS proxier will masquer
 如果 kube-proxy 配置了--masquerade-all=true参数，所以访问ipvs VIP\(cluster IPs\)的流量都会被SNAT
 
 ```text
+# 所有访问clusterIP的流量，响应时都snat成clusterIP去响应。
 $ iptables -t nat -nL|grep  KUBE-CLUSTER-IP
 target          prot opt source               destination  
 KUBE-MARK-MASQ  all  --  0.0.0.0/0            0.0.0.0/0            /* Kubernetes service cluster ip + port for masquerade purpose */ match-set KUBE-CLUSTER-IP dst,dst
@@ -316,10 +317,132 @@ If kube-proxy starts with `--cluster-cidr=`, the IPVS proxier will masquerade of
 要明白一点，Service IP是VIP不会以client形式出现在路由中的，所以这个`--cluster-cid`填的是pod subnets.
 
 ```text
+# 使用 MASQUERADE 进行与 Pod subnet 相关的 SNAT，实际上这是将 pod 的源 ip SNAT 为 service ip。
+# 集群内部pod访问时，不需要做snat
+# https://zhuanlan.zhihu.com/p/87063321
 $ iptables -t nat -nL|grep  KUBE-CLUSTER-IP
 target         prot opt source               destination  
 KUBE-MARK-MASQ  all  -- !10.244.0.0/16        0.0.0.0/0            /* Kubernetes service cluster ip + port for masquerade purpose */ match-set KUBE-CLUSTER-IP             dst,dst
-​
+
+
+
+
+## 已知harbor不是k8s node
+## 即非--cluster-cidr访问clusterIP时，会进行snat转换，用clusterIP响应 Harbor Server的请求
+[root@cs1-harbor-1 ~]# tcpdump -n -i any port 8080 and "tcp[tcpflags] & (tcp-syn) != 0"
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on any, link-type LINUX_SLL (Linux cooked), capture size 262144 bytes
+10:46:06.436999 IP 21.49.22.1.43358 > 10.102.102.13.webcache: Flags [S], seq 349794772, win 29200, options [mss 1460,sackOK,TS val 2719584191 ecr 0,nop,wscale 7], length 0
+10:46:06.437010 IP 21.49.22.1.43358 > 10.102.102.13.webcache: Flags [S], seq 349794772, win 29200, options [mss 1460,sackOK,TS val 2719584191 ecr 0,nop,wscale 7], length 0
+10:46:06.437333 IP 10.102.102.13.webcache > 21.49.22.1.43358: Flags [S.], seq 3605680494, ack 349794773, win 27760, options [mss 1400,sackOK,TS val 906087535 ecr 2719584191,nop,wscale 7], l
+ength 010:46:06.437333 IP 10.102.102.13.webcache > 21.49.22.1.43358: Flags [S.], seq 3605680494, ack 349794773, win 27760, options [mss 1400,sackOK,TS val 906087535 ecr 2719584191,nop,wscale 7], l
+ength 0
+
+
+[root@cs1-harbor-1 ~]# curl 10.102.102.13:8080
+CLIENT VALUES:
+client_address=21.49.22.7
+command=GET
+real path=/
+query=nil
+request_version=1.1
+request_uri=http://10.102.102.13:8080/
+
+SERVER VALUES:
+server_version=nginx: 1.10.0 - lua: 10001
+
+HEADERS RECEIVED:
+accept=*/*
+host=10.102.102.13:8080
+user-agent=curl/7.29.0
+BODY:
+-no body in request-
+
+
+----
+
+## 但是k8s内部pod间的访问是不需要masquerade，直接pod 进行响应
+[root@cs1-k8s-n1 ~]# curl 10.102.102.13:8080
+CLIENT VALUES:
+client_address=21.49.22.7
+command=GET
+real path=/
+query=nil
+request_version=1.1
+request_uri=http://10.102.102.13:8080/
+
+SERVER VALUES:
+server_version=nginx: 1.10.0 - lua: 10001
+
+HEADERS RECEIVED:
+accept=*/*
+host=10.102.102.13:8080
+user-agent=curl/7.29.0
+BODY:
+-no body in request-
+
+## 在client上抓关于service ip的包是空白的
+[root@cs1-k8s-n1 ~]# tcpdump -n -i any  port 8080  and host 10.102.102.13
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on any, link-type LINUX_SLL (Linux cooked), capture size 262144 bytes
+^C
+0 packets captured
+140 packets received by filter
+93 packets dropped by kernel
+
+
+[root@cs1-k8s-n1 ~]# curl 10.102.102.13:8080
+CLIENT VALUES:
+client_address=172.17.0.1
+command=GET
+real path=/
+query=nil
+request_version=1.1
+request_uri=http://10.102.102.13:8080/
+
+SERVER VALUES:
+server_version=nginx: 1.10.0 - lua: 10001
+
+HEADERS RECEIVED:
+accept=*/*
+host=10.102.102.13:8080
+user-agent=curl/7.29.0
+BODY:
+-no body in request-
+
+## 查看该svc对应的后端pod ip即Real Server 
+[root@cs1-k8s-n1 ~]# ipvsadm -l|grep -A 5 10.102.102.13
+TCP  10.102.102.13:webcache rr
+  -> 192.168.1.160:webcache       Masq    1      0          1         
+  -> 192.168.1.161:webcache       Masq    1      0          1         
+  -> 192.168.118.113:webcache     Masq    1      0          0 
+  
+# 不加-e 抓包显示的是172.27.0.1 docker0的地址作为client，有点奇怪
+[root@cs1-k8s-n1 ~]# tcpdump -i any -n  -e  host 192.168.118.113 or 192.168.1.160 or 192.168.1.161
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on any, link-type LINUX_SLL (Linux cooked), capture size 262144 bytes
+11:04:06.413667 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 76: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [S], seq 1087246176, win 43690, options [mss 65495,sackOK,TS val 1
+226037074 ecr 0,nop,wscale 7], length 011:04:06.413678 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 76: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [S], seq 1087246176, win 43690, options [mss 65495,sackOK,TS val 1
+226037074 ecr 0,nop,wscale 7], length 011:04:06.413861  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 76: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [S.], seq 1173116939, ack 1087246177, win 27760, options [mss 1400
+,sackOK,TS val 907167511 ecr 1226037074,nop,wscale 7], length 011:04:06.413861  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 76: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [S.], seq 1173116939, ack 1087246177, win 27760, options [mss 1400
+,sackOK,TS val 907167511 ecr 1226037074,nop,wscale 7], length 011:04:06.413947 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [.], ack 1, win 342, options [nop,nop,TS val 1226037074 ecr 907167
+511], length 011:04:06.413951 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [.], ack 1, win 342, options [nop,nop,TS val 1226037074 ecr 907167
+511], length 011:04:06.414117 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 150: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [P.], seq 1:83, ack 1, win 342, options [nop,nop,TS val 122603707
+4 ecr 907167511], length 82: HTTP: GET / HTTP/1.111:04:06.414130 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 150: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [P.], seq 1:83, ack 1, win 342, options [nop,nop,TS val 122603707
+4 ecr 907167511], length 82: HTTP: GET / HTTP/1.111:04:06.414233  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 68: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [.], ack 83, win 217, options [nop,nop,TS val 907167512 ecr 122603
+7074], length 011:04:06.414233  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 68: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [.], ack 83, win 217, options [nop,nop,TS val 907167512 ecr 122603
+7074], length 011:04:06.414601  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 617: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [P.], seq 1:550, ack 83, win 217, options [nop,nop,TS val 9071675
+12 ecr 1226037074], length 549: HTTP: HTTP/1.1 200 OK11:04:06.414601  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 617: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [P.], seq 1:550, ack 83, win 217, options [nop,nop,TS val 9071675
+12 ecr 1226037074], length 549: HTTP: HTTP/1.1 200 OK11:04:06.414625 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [.], ack 550, win 350, options [nop,nop,TS val 1226037075 ecr 9071
+67512], length 011:04:06.414628 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [.], ack 550, win 350, options [nop,nop,TS val 1226037075 ecr 9071
+67512], length 011:04:06.414903 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [F.], seq 83, ack 550, win 350, options [nop,nop,TS val 1226037075
+ ecr 907167512], length 011:04:06.414913 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [F.], seq 83, ack 550, win 350, options [nop,nop,TS val 1226037075
+ ecr 907167512], length 011:04:06.415082  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 68: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [F.], seq 550, ack 84, win 217, options [nop,nop,TS val 907167513 
+ecr 1226037075], length 011:04:06.415082  In e8:61:1f:26:d5:e1 ethertype IPv4 (0x0800), length 68: 192.168.1.161.webcache > 21.49.22.7.54302: Flags [F.], seq 550, ack 84, win 217, options [nop,nop,TS val 907167513 
+ecr 1226037075], length 011:04:06.415124 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [.], ack 551, win 350, options [nop,nop,TS val 1226037075 ecr 9071
+67513], length 011:04:06.415128 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0x0800), length 68: 21.49.22.7.54302 > 192.168.1.161.webcache: Flags [.], ack 551, win 350, options [nop,nop,TS val 1226037075 ecr 9071
+67513], length 0
+        
 ```
 
 **3. Load Balancer Source Ranges is specified for LB type service**
@@ -327,11 +450,6 @@ KUBE-MARK-MASQ  all  -- !10.244.0.0/16        0.0.0.0/0            /* Kubernetes
 When service's `LoadBalancerStatus.ingress.IP` is not empty and service's `LoadBalancerSourceRanges` is specified, IPVS proxier will install iptables rules which looks like what is shown below.
 
 Suppose service's `LoadBalancerStatus.ingress.IP` is `10.96.1.2` and service's `LoadBalancerSourceRanges` is `10.120.2.0/24`:
-
-```text
-## 对比测试云吧
-​
-```
 
 **4. Support NodePort type service**
 
