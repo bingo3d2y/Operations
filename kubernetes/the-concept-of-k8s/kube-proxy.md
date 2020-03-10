@@ -447,13 +447,7 @@ ecr 1226037075], length 011:04:06.415124 Out e0:4f:43:dd:ac:b1 ethertype IPv4 (0
 
 **3. Load Balancer Source Ranges is specified for LB type service**
 
-When service's `LoadBalancerStatus.ingress.IP` is not empty and service's `LoadBalancerSourceRanges` is specified, IPVS proxier will install iptables rules which looks like what is shown below.
-
-Suppose service's `LoadBalancerStatus.ingress.IP` is `10.96.1.2` and service's `LoadBalancerSourceRanges` is `10.120.2.0/24`:
-
 **4. Support NodePort type service**
-
-Please check the section below.
 
 **How the IPVS proxier works\(还没好好整理\)**
 
