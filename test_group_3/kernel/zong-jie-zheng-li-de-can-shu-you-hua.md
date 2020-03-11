@@ -55,11 +55,23 @@ You can "free" space in two ways then:
 
   系统级限制： 所有用户总共能打开的文件描述符数.
 
+* ulimit
+
   用户级别限制打开文件数使用：`ulimit`
 
   > ulimit -n 显示当前用户能打开的最大文件数
   >
   > ulimit -n &lt;filenumber&gt; 修改能打开的最大文件数
+
+  持久化修改：
+
+  ```text
+  # vim /etc/security/limits.conf
+  ​
+  * soft nofile 65535
+  ​
+  * hard nofile 65535
+  ```
 
 * end
 
