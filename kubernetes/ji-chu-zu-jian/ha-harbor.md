@@ -8,6 +8,8 @@
 
 官方的架构图：
 
+![](../../.gitbook/assets/harbor-arch.png)
+
 ![Harbor-arch](file://D:/data_files/MarkDown/Images/Harbor-arch.png?lastModify=1584022442)
 
 Harbor通常使用`docker-compose`进行安装部署，通过阅读`docker-compose.yaml`，我们可以看到Harbor服务由下面这些services构成：
