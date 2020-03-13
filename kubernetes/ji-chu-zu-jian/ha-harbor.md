@@ -304,6 +304,8 @@ optional arguments:
 
 HA的需要启动多个应用实例/副本，来提高容错率。但是对于有状态的应用来说，在做HA的情况一定要考虑状态数据的一致性。
 
+![](../../.gitbook/assets/harbor-ha-arch.jpg)
+
 通过前面对Harbor各个组件的介绍，它的需要HA的组件包括：
 
 * Redis的高可用，对外提供一个高可用的redis地址
