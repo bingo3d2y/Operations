@@ -1,2 +1,2 @@
-# Nginx global configuration
+# Nginx configuration
 

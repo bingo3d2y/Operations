@@ -1,8 +1,4 @@
----
-description: 完全理解镜像的概念和底层
----
-
-# Image
+# 核心概念
 
 **image id ane digest and sha256 and tag**
 
@@ -992,6 +988,4 @@ Strict-Transport-Security: max-age=31536000
 不过，它和Harbor的不一样。、但你还得了解，因为你要从官方registry下载镜像在传到Harbor。
 
  [https://github.com/docker/distribution/issues/2395](https://github.com/docker/distribution/issues/2395)
-
-**\#**
 

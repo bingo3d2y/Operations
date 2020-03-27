@@ -1,4 +1,6 @@
-# Nginx HTTP Status Code
+# Nginx HTTP Status Code（带完善）
+
+**502** 也有可能是 Proxy Buffer 不够？？？
 
 **Nginx HTTP Status Code**
 
